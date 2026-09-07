@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Briefing de Implantação</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="mark">LP</span><div><strong>Briefing de Implantação</strong><small>Landing Page</small></div></div><span id="saveState" class="save-state">não iniciado</span></header>
+  <main class="shell">
+    <section id="invalid" class="card hidden"><h1>Link indisponível</h1><p>Este link não é válido, expirou ou já foi enviado. Solicite um novo link ao responsável pela implantação.</p></section>
+    <section id="app" class="card hidden">
+      <div class="progress-wrap"><div class="step-label"><span id="stepText">Etapa 1 de 6</span><span id="percentText">17%</span></div><div class="progress"><span id="progressBar"></span></div></div>
+      <form id="briefingForm" novalidate>
+        <section class="step active" data-step="0">
+          <p class="eyebrow">Começando</p><h1>Conte um pouco sobre o negócio</h1><p class="lead">Não precisa escrever como agência. Use suas próprias palavras; nós adaptamos ao modelo escolhido.</p>
+          <div class="grid two"><label>Nome comercial *<input name="businessName" required maxlength="120"></label><label>Seu nome *<input name="responsibleName" required maxlength="120"></label></div>
+          <div class="grid two"><label>Seu e-mail *<input type="email" name="responsibleEmail" required></label><label>Segmento / preset *<select name="preset" required><option value="">Selecione</option><option value="odontologia">Odontologia</option><option value="estetica">Clínica de Estética</option><option value="fisioterapia">Fisioterapia & Pilates</option><option value="barbearia">Barbearia</option><option value="barbearia-kids">Barbearia Kids</option><option value="salao-beleza">Salão de Beleza</option><option value="advocacia">Advocacia</option><option value="arquitetura">Arquitetura</option><option value="contabilidade">Contabilidade</option></select></label></div>
+          <label>O que sua empresa faz? *<textarea name="businessSummary" required rows="4" placeholder="Explique de forma simples o que vocês fazem e para quem."></textarea></label>
+          <label>Quais são os principais serviços ou áreas? *<textarea name="serviceSummary" required rows="4" placeholder="Pode listar um por linha. Não precisa deixar o texto perfeito."></textarea></label>
+        </section>
+        <section class="step" data-step="1">
+          <p class="eyebrow">Contato</p><h1>Como as pessoas falam com você?</h1>
+          <div class="grid two"><label>WhatsApp *<input name="whatsapp" required placeholder="(41) 99999-9999"></label><label>Telefone público<input name="phone"></label></div>
+          <label>Mensagem inicial do WhatsApp<input name="whatsappMessage" maxlength="240" placeholder="Olá! Gostaria de saber mais..."></label>
+          <div class="grid two"><label>E-mail público<input type="email" name="publicEmail"></label><label>Instagram<input name="instagram" placeholder="@empresa ou URL"></label></div>
+          <label class="professional-only hidden">LinkedIn<input name="linkedin" placeholder="https://linkedin.com/company/..."></label>
+        </section>
+        <section class="step" data-step="2">
+          <p class="eyebrow">Localização</p><h1>Seu negócio atende em endereço físico?</h1>
+          <label class="switch-row"><input type="checkbox" name="noPhysicalAddress"><span>Meu negócio não possui atendimento em endereço físico</span></label>
+          <div id="addressFields">
+            <div class="grid two"><label>Rua e número<input name="street"></label><label>Bairro<input name="district"></label></div>
+            <div class="grid three"><label>Cidade<input name="city"></label><label>Estado<input name="state" maxlength="2" placeholder="PR"></label><label>CEP<input name="cep"></label></div>
+            <label>Horários<textarea name="hours" rows="3" placeholder="Seg-sex 09:00-18:00; sáb 09:00-12:00"></textarea></label>
+            <label class="health-lifestyle-only">Link do Google Maps<input name="mapsUrl" placeholder="Opcional; não envie senha do Google/registrador"></label>
+          </div>
+        </section>
+        <section class="step" data-step="3">
+          <p class="eyebrow">Identidade</p><h1>Materiais visuais</h1><p class="lead">Logo e fotos podem ser enviados depois. Aceitamos JPG, PNG e WebP com até 5 MB.</p>
+          <div class="grid two"><label>Cor principal<input type="color" name="brandColor" value="#2563eb"></label><label>Cor de destaque<input type="color" name="accentColor" value="#0ea5e9"></label></div>
+          <label>Referências visuais<textarea name="visualReferences" rows="3" placeholder="Links, estilos ou sites de que você gosta."></textarea></label>
+          <div class="uploads"><label class="upload">Logo<input type="file" data-kind="logo" accept="image/jpeg,image/png,image/webp"><span class="file-note"></span></label><label class="upload">Foto principal / hero<input type="file" data-kind="hero" accept="image/jpeg,image/png,image/webp"><span class="file-note"></span></label><label class="upload family-image" data-families="health,professional">Foto de profissional/equipe<input type="file" data-kind="professional" accept="image/jpeg,image/png,image/webp"><span class="file-note"></span></label></div>
+        </section>
+        <section class="step" data-step="4">
+          <p class="eyebrow">Detalhes</p><h1>Informações que ajudam a deixar o site completo</h1>
+          <div class="health-only hidden"><label>Profissional responsável<input name="healthProfessional"></label><label>Registro profissional<input name="professionalRegistry" placeholder="Ex.: CREFITO-8 12345-F"></label><label>Diferenciais<textarea name="differentials" rows="3"></textarea></label><label>Perguntas frequentes<textarea name="faqNotes" rows="3" placeholder="Uma pergunta por linha, se já tiver."></textarea></label></div>
+          <div class="lifestyle-only hidden"><label>Serviços com duração e preço<textarea name="lifestyleServices" rows="5" placeholder="Corte masculino — 45 min — R$ 60"></textarea></label><label>Equipe<textarea name="lifestyleTeam" rows="4" placeholder="Nome — especialidade — experiência"></textarea></label><label>Galeria<input type="file" data-kind="gallery" accept="image/jpeg,image/png,image/webp" multiple><span class="file-note"></span></label></div>
+          <div class="professional-only hidden"><label>Registro institucional/profissional<input name="professionalInstitutionRegistry"></label><label>Áreas de atuação<textarea name="practiceAreas" rows="5"></textarea></label><label>Equipe / profissionais<textarea name="professionalTeam" rows="4" placeholder="Nome — cargo — especialização — registro — idiomas"></textarea></label><label>Projetos ou artigos que deseja destacar<textarea name="articlesProjects" rows="4"></textarea></label></div>
+          <details><summary>Depoimentos, números e outras informações</summary><label>Depoimentos<textarea name="testimonials" rows="4" placeholder="Use apenas depoimentos reais e autorizados."></textarea></label><label>Números/dados que podem ser comprovados<textarea name="metrics" rows="3" placeholder="Ex.: 8 anos de atuação; 120 projetos concluídos."></textarea></label></details>
+        </section>
+        <section class="step" data-step="5">
+          <p class="eyebrow">Domínio e confirmação</p><h1>Últimos detalhes</h1>
+          <fieldset><legend>Você já possui domínio?</legend><label class="radio"><input type="radio" name="hasDomain" value="yes"> Sim</label><label class="radio"><input type="radio" name="hasDomain" value="no"> Ainda não</label></fieldset>
+          <div id="domainYes" class="hidden"><div class="grid two"><label>Domínio<input name="domain"></label><label>Registrador<input name="registrar" placeholder="Registro.br, GoDaddy..."></label></div><label class="switch-row"><input type="checkbox" name="dnsAccess"><span>Eu possuo acesso ao painel de DNS</span></label><p class="hint">Nunca envie senha do registrador. A configuração pode ser acompanhada por chamada/tela compartilhada.</p></div>
+          <div id="domainNo" class="hidden"><label>Domínio desejado<input name="desiredDomain"></label><label>Alternativas<textarea name="domainAlternatives" rows="2"></textarea></label><p class="notice">O registro e a renovação do domínio são pagos diretamente pelo cliente e não fazem parte dos R$ 1.200.</p></div>
+          <label>Existe algo importante que devemos saber?<textarea name="notes" rows="4"></textarea></label>
+          <div id="summary" class="summary"></div>
+          <label class="consent"><input type="checkbox" name="consent" required><span>Confirmo que as informações estão corretas e que possuo autorização para utilização dos textos, marcas e imagens fornecidas. *</span></label>
+        </section>
+        <footer class="actions"><button type="button" id="prev" class="secondary">Voltar</button><button type="button" id="next">Continuar</button><button type="submit" id="submit" class="hidden">Enviar informações para implantação</button></footer>
+      </form>
+    </section>
+    <section id="success" class="card success hidden"><div class="success-icon">✓</div><h1>Recebemos suas informações!</h1><p>O envio foi concluído. Vamos revisar o material e, se faltar algo essencial, entraremos em contato antes de iniciar a implantação.</p><p class="hint">Você já pode fechar esta página.</p></section>
+  </main>
+  <script src="config.js"></script><script src="app.js"></script>
+</body>
+</html>

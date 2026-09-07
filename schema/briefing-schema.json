@@ -1,0 +1,87 @@
+{
+  "version": "2026-09-04",
+  "families": {
+    "health": {
+      "label": "Saúde",
+      "presets": [
+        "odontologia",
+        "estetica",
+        "fisioterapia"
+      ]
+    },
+    "lifestyle": {
+      "label": "Beleza & Lifestyle",
+      "presets": [
+        "barbearia",
+        "barbearia-kids",
+        "salao-beleza"
+      ]
+    },
+    "professional": {
+      "label": "Serviços Profissionais",
+      "presets": [
+        "advocacia",
+        "arquitetura",
+        "contabilidade"
+      ]
+    }
+  },
+  "limits": {
+    "imageMaxBytes": 5242880,
+    "imageMimeTypes": [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ]
+  },
+  "imageSlots": [
+    {
+      "kind": "logo",
+      "families": [
+        "health",
+        "lifestyle",
+        "professional"
+      ],
+      "required": false
+    },
+    {
+      "kind": "hero",
+      "families": [
+        "health",
+        "lifestyle",
+        "professional"
+      ],
+      "required": false
+    },
+    {
+      "kind": "professional",
+      "families": [
+        "health",
+        "professional"
+      ],
+      "required": false
+    },
+    {
+      "kind": "team",
+      "families": [
+        "lifestyle",
+        "professional"
+      ],
+      "required": false
+    },
+    {
+      "kind": "gallery",
+      "families": [
+        "lifestyle"
+      ],
+      "required": false
+    },
+    {
+      "kind": "article",
+      "families": [
+        "professional"
+      ],
+      "required": false
+    }
+  ]
+}
