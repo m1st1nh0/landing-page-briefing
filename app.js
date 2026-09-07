@@ -9,6 +9,7 @@
   const token = sessionStorage.getItem('briefing_token');
   const app = document.getElementById('app');
   const invalid = document.getElementById('invalid');
+  const invalidReason = document.getElementById('invalidReason');
   const success = document.getElementById('success');
   const form = document.getElementById('briefingForm');
   const steps = [...document.querySelectorAll('.step')];
@@ -27,9 +28,19 @@
     const headers = {'X-Briefing-Token': token || ''};
     if (!isForm) headers['Content-Type']='application/json';
     const res = await fetch(cfg.apiUrl, {method: action==='bootstrap'?'GET':'POST', headers, body: action==='bootstrap'?undefined:(isForm?body:JSON.stringify({action,...body}))});
-    if (!res.ok) throw new Error((await res.json().catch(()=>({}))).error || 'Falha na comunicação');
+    if (!res.ok) {
+      const details = await res.json().catch(()=>({}));
+      const err = new Error(details.error || `Falha na comunicação (${res.status})`);
+      err.status = res.status;
+      throw err;
+    }
     return res.json();
   };
+
+  function showInvalid(message){
+    if (invalidReason && message) invalidReason.textContent = message;
+    invalid.classList.remove('hidden');
+  }
 
   function setFamily() {
     family = presetFamily[form.elements.preset.value] || '';
@@ -67,7 +78,7 @@
     const p=getPayload();
     document.getElementById('saveState').textContent='salvando...';
     try{ await api('save',{payload:p}); document.getElementById('saveState').textContent='salvo'; }
-    catch{ document.getElementById('saveState').textContent='falha ao salvar'; }
+    catch(err){ document.getElementById('saveState').textContent='falha ao salvar'; throw err; }
   }
   function renderSummary(){
     const p=getPayload();
@@ -77,7 +88,7 @@
   function toggleAddress(){ document.getElementById('addressFields').classList.toggle('hidden',form.elements.noPhysicalAddress.checked); }
   function toggleDomain(){const v=form.elements.hasDomain.value;document.getElementById('domainYes').classList.toggle('hidden',v!=='yes');document.getElementById('domainNo').classList.toggle('hidden',v!=='no');}
 
-  document.getElementById('next').onclick=async()=>{if(!validateCurrent())return;await save();step++;renderStep();};
+  document.getElementById('next').onclick=async()=>{if(!validateCurrent())return;try{await save();step++;renderStep();}catch(err){alert(err.message);}};
   document.getElementById('prev').onclick=()=>{step=Math.max(0,step-1);renderStep();};
   form.elements.preset.addEventListener('change',setFamily);
   form.elements.noPhysicalAddress.addEventListener('change',toggleAddress);
@@ -93,8 +104,16 @@
   }));
 
   (async()=>{
-    if(!token && !cfg.demoMode){ invalid.classList.remove('hidden'); return; }
-    try{const state=await api('bootstrap'); if(['SUBMITTED','COMPLETED'].includes(state.status)){invalid.classList.remove('hidden');return;} restore(state.payload||{});app.classList.remove('hidden');renderStep();}
-    catch{invalid.classList.remove('hidden');}
+    if(!token && !cfg.demoMode){ showInvalid('O link não contém um token de briefing. Solicite um novo link ao responsável pela implantação.'); return; }
+    try{
+      const state=await api('bootstrap');
+      if(['SUBMITTED','COMPLETED'].includes(state.status)){showInvalid('Este briefing já foi enviado ou concluído. Solicite um novo link caso precise enviar novas informações.');return;}
+      restore(state.payload||{});app.classList.remove('hidden');renderStep();
+    }
+    catch(err){
+      if(err.status===401) showInvalid('Este token não possui um briefing ativo no Supabase, expirou ou foi revogado. O responsável precisa gerar o link pelo cadastro de briefing antes do preenchimento.');
+      else if(err.status===403) showInvalid('O domínio publicado não está autorizado a acessar o backend do briefing.');
+      else showInvalid(`Não foi possível validar o briefing: ${err.message}`);
+    }
   })();
 })();
